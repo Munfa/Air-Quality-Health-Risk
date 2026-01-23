@@ -101,8 +101,10 @@ def compute_aqi_per_row(row):
     if len(aqi_values) == 0:
         return np.nan
     
-    return np.nanmax(aqi_values)
+    return round(np.nanmax(aqi_values), 2)
 
 def compute_aqi(df):
     df['AQI'] = df.apply(compute_aqi_per_row, axis=1)
     return df
+
+# def assess_health_risk(aqi, weather_data):
