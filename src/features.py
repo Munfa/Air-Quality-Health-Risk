@@ -107,4 +107,31 @@ def compute_aqi(df):
     df['AQI'] = df.apply(compute_aqi_per_row, axis=1)
     return df
 
-# def assess_health_risk(aqi, weather_data):
+def assess_health_risk(aqi, weather_data):
+    ##### Assess health risk #####
+    if aqi <= 50:
+        risk = "Good"
+    elif aqi <= 100:
+        risk = "Moderate"
+    elif aqi <= 150:
+        risk = "Unhealthy for Sensitive Groups"     
+    elif aqi <= 200:
+        risk = "Unhealthy"
+    elif aqi <= 300:
+        risk = "Very Unhealthy"
+    else:
+        risk = "Hazardous"
+    
+    recommendations = []
+    if weather_data["Humidity"] > 80 and aqi > 100:
+        recommendations.append("High humidity may worsen respiratory symptoms")
+    if weather_data["Temperature"] > 30 and aqi > 100:
+        recommendations.append("Heat stress combined with poor air quality - stay hydrated")
+    if weather_data["Wind Speed"] > 2 and aqi > 100:
+        recommendations.append("Low wind speed - pollutants may accumulate indoors")
+
+    return {
+        "AQI: ", aqi,
+        "Risk Level: ", risk,
+        "Health Recommendation: ", recommendations
+    }
