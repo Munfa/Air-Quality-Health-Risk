@@ -130,8 +130,9 @@ def assess_health_risk(aqi, weather_data):
     if weather_data["Wind Speed"] > 2 and aqi > 100:
         recommendations.append("Low wind speed - pollutants may accumulate indoors")
 
-    return {
-        "AQI" : aqi,
-        "Risk Level" : risk,
-        "Health Recommendation" : recommendations
-    }
+    # return {
+    #     "AQI" : aqi,
+    #     "Risk Level" : risk,
+    #     "Health Recommendation" : recommendations
+    # }
+    return risk
