@@ -7,6 +7,8 @@ import numpy as np
 from dotenv import load_dotenv
 import os
 from src.features import assess_health_risk
+from src.fetch_weather import get_weather
+from src.fetch_air_pollutant import get_pollutant
 
 app = FastAPI()
 model = joblib.load("saved_models/model.joblib")
@@ -20,7 +22,7 @@ def get_coordinates(city):
     row = cities[cities["city"] == city]
     if row.empty:
         return None
-    return float(row["lat"], row["lon"])
+    return (row["lat"], row["lon"])
 
 @app.get("/")
 def home():
@@ -32,8 +34,8 @@ def predict_city_aqi(city: str):
 
     if coords is None:
         return {"Error": "City not found"}
-
     lat, lon = coords
+
     pollutant_data = get_pollutant(lat, lon, api_key)
     weather_data = get_weather(lat, lon, api_key)
 
@@ -46,28 +48,8 @@ def predict_city_aqi(city: str):
     risk = assess_health_risk(aqi, weather_data)
 
     return {
-        "City" : city,
-        "AQI" : aqi,
-        "Health Risk" : risk
+        "city" : city,
+        "predicted_aqi" : round(float(aqi), 2),
+        "health_risk" : risk
     }
 
-# data = {
-#     'PM2.5' : 86.57,
-#     'PM10' : 25.19,
-#     'NO2' : 99.88,
-#     'SO2' : 30.63,
-#     'CO' : 4.46,
-#     'O3' : 36.29,
-#     'Temperature' : 17.67,
-#     'Humidity' : 59.35,
-#     'Wind Speed' : 13.76
-# }
-
-
-
-# keys_to_select = ["Temperature", "Humidity", "Wind Speed"]
-# weather_data = {k : data[k] for k in keys_to_select if k in data}
-
-
-# print(aqi)
-# print(result)

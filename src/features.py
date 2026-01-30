@@ -122,17 +122,5 @@ def assess_health_risk(aqi, weather_data):
     else:
         risk = "Hazardous"
     
-    recommendations = []
-    if weather_data["Humidity"] > 80 and aqi > 100:
-        recommendations.append("High humidity may worsen respiratory symptoms")
-    if weather_data["Temperature"] > 30 and aqi > 100:
-        recommendations.append("Heat stress combined with poor air quality - stay hydrated")
-    if weather_data["Wind Speed"] > 2 and aqi > 100:
-        recommendations.append("Low wind speed - pollutants may accumulate indoors")
 
-    # return {
-    #     "AQI" : aqi,
-    #     "Risk Level" : risk,
-    #     "Health Recommendation" : recommendations
-    # }
     return risk
