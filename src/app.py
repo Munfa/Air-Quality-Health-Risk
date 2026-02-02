@@ -9,10 +9,13 @@ import os
 from src.features import assess_health_risk
 from src.fetch_weather import get_weather
 from src.fetch_air_pollutant import get_pollutant
+from src.database import engine, Base, SessionLocal, AQIPrediction
 
 app = FastAPI()
 model = joblib.load("saved_models/model.joblib")
 scaler = joblib.load("saved_models/scaler.joblib")
+
+Base.metadata.create_all(bind=engine)
 
 load_dotenv()
 api_key = os.getenv("openweather_key")
@@ -44,12 +47,27 @@ def predict_city_aqi(city: str):
     df = pd.DataFrame([data])
     scaled_df = scaler.transform(df)
     aqi = model.predict(scaled_df)[0]
+    aqi = round(float(aqi), 2)
 
     risk = assess_health_risk(aqi, weather_data)
 
+    db = SessionLocal()
+    row = AQIPrediction(
+        city = city,
+        predicted_aqi = aqi,
+        health_risk = risk
+    )
+    db.add(row)
+    db.commit()
+    db.close()
+
     return {
         "city" : city,
-        "predicted_aqi" : round(float(aqi), 2),
+        "predicted_aqi" : aqi,
         "health_risk" : risk
     }
 
+@app.get("/history")
+def history():
+    rows = db.query(AQIPrediction).all()
+    return rows

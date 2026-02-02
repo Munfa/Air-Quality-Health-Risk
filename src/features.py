@@ -70,7 +70,7 @@ SO2_BREAKPOINTS = [
     Bp_low = the breakpoint concentration that is less than Cp
 '''
 def calculate_aqi(Cp, breakpoints):
-    for (Bp_low, Bp_high, I_low, I_high) in breakpoints:
+    for Bp_low, Bp_high, I_low, I_high in breakpoints:
         if Bp_low <= Cp <= Bp_high:
             aqi_value = ((I_high - I_low)/(Bp_high - Bp_low)) * (Cp - Bp_low) + I_low
             return aqi_value
