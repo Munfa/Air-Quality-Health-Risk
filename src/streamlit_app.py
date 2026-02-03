@@ -1,9 +1,9 @@
 import streamlit as st 
-import pandas as pd
 import requests
 
-df = pd.read_csv("data/cities_metadata.csv")
-cities = df["city"].to_list()
+cities = ['Dhaka', 'Delhi', 'Mumbai', 'Beijing', 'London', 
+            'Paris', 'New York', 'Los Angeles', 'Tokyo', 'Seoul', 
+            'Bangkok', 'Sydney']
 
 st.title("Air Quality & Health Risk Prediction")
 

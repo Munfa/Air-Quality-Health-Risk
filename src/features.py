@@ -21,7 +21,7 @@ PM10_BREAKPOINTS = [
     (425, 604, 301, 400)
 ]
 
-# Breakpoints for NO2 (ppm)
+# Breakpoints for NO2 (ppb)
 NO2_BREAKPOINTS = [
     (0, 53, 0, 50),
     (54, 100, 51, 100),
@@ -74,7 +74,7 @@ def calculate_aqi(Cp, breakpoints):
         if Bp_low <= Cp <= Bp_high:
             aqi_value = ((I_high - I_low)/(Bp_high - Bp_low)) * (Cp - Bp_low) + I_low
             return aqi_value
-        return np.nan
+    return np.nan
     
 def compute_aqi_per_row(row):
     pm25 = row.get("PM2.5")
@@ -101,7 +101,7 @@ def compute_aqi_per_row(row):
     if len(aqi_values) == 0:
         return np.nan
     
-    return round(np.nanmax(aqi_values), 2)
+    return round(max(aqi_values), 2)
 
 def compute_aqi(df):
     df['AQI'] = df.apply(compute_aqi_per_row, axis=1)

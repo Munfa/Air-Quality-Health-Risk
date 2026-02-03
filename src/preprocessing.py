@@ -8,6 +8,7 @@ import joblib
 
 df = pd.read_csv("data/global_air_quality_data.csv")
 df = compute_aqi(df)
+
 df.dropna(inplace=True)
 
 df.set_index('Date', inplace=True)
@@ -18,8 +19,8 @@ train_df = pd.DataFrame(train_df)
 test_df = pd.DataFrame(test_df)
 
 ########### files saved ########
-# train_df.to_csv("data/train_data.csv")
-# test_df.to_csv("data/test_data.csv")
+train_df.to_csv("data/train_data.csv")
+test_df.to_csv("data/test_data.csv")
 
 X_train = train_df.drop(['City', 'Country', 'AQI'], axis=1)
 y_train = train_df['AQI']
@@ -31,7 +32,7 @@ scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# joblib.dump(scaler, "saved_models/scaler.joblib")
+joblib.dump(scaler, "saved_models/scaler.joblib")
 
 model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, max_depth=5, eta=0.1)
 model.fit(X_train, y_train)
@@ -41,5 +42,5 @@ error = mean_squared_error(y_test, y_pred)
 
 print("Error: ", error)
 
-# joblib.dump(model, "saved_models/model.joblib")
-# print("Models saved successfully")
+joblib.dump(model, "saved_models/model.joblib")
+print("Models saved successfully")
