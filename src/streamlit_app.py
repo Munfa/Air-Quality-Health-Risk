@@ -1,5 +1,6 @@
 import streamlit as st 
 import requests
+import pandas as pd
 
 cities = ['Dhaka', 'Delhi', 'Mumbai', 'Beijing', 'London', 
             'Paris', 'New York', 'Los Angeles', 'Tokyo', 'Seoul', 
@@ -23,3 +24,21 @@ if st.button("Predict AQI"):
 
     else: 
         st.error("Prediction Failed!!")
+
+    if selected_city:
+        response = requests.get(
+            f"http://127.0.0.1:8000/history/{selected_city}"
+        )
+        if response.status_code == 200:
+            data = response.json()
+
+            if len(data) == 0:
+                st.warning("No AQI data available yet!")
+
+            else:    
+                df = pd.DataFrame(data)
+                df["date"] = pd.to_datetime(df["datetime"]).dt.date
+
+            st.line_chart(
+                df.set_index("date")["aqi"]
+            )

@@ -67,7 +67,18 @@ def predict_city_aqi(city: str):
         "health_risk" : risk
     }
 
-@app.get("/history")
-def history():
-    rows = db.query(AQIPrediction).all()
-    return rows
+@app.get("/history/{city}")
+def history(city:str):
+    db: Session = SessionLocal()
+    records = (
+        db.query(AQIPrediction).filter(AQIPrediction.city == city).order_by(AQIPrediction.timestamp).all()
+    )
+    db.close()
+
+    return [
+        {
+            "datetime" : r.timestamp,
+            "aqi" : r.predicted_aqi
+        }
+        for r in records
+    ]
