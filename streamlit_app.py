@@ -12,7 +12,7 @@ selected_city = st.selectbox("Select a City", cities)
 
 if st.button("Predict AQI"):
     response = requests.get(
-        f"http://127.0.0.1:8000/predict/{selected_city}"
+        f"https://air-quality-health-risk.onrender.com/predict/{selected_city}"
     )
     
     if response.status_code == 200:
@@ -27,7 +27,7 @@ if st.button("Predict AQI"):
 
     if selected_city:
         response = requests.get(
-            f"http://127.0.0.1:8000/history/{selected_city}"
+            f"https://air-quality-health-risk.onrender.com/history/{selected_city}"
         )
         if response.status_code == 200:
             data = response.json()
