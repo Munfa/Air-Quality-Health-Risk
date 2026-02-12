@@ -35,12 +35,20 @@ Backend Docs:
 [https://air-quality-health-risk.onrender.com/docs](https://air-quality-health-risk.onrender.com/docs)
 
 ## Visualizations
-
+Streamlit Dashboard:
 - AQI Line Chart by Selected City
 - Date-based trend visualization (timestamp converted to date for clarity)
 - Interactive filtering by city
 
 ![Linechart](images/linechart.png)
+
+Looker Studio Dashboard:
+- Scorecards of Average AQI, Health Risk Levels, City Count, and Max AQI
+- AQI Line Chart by Date of selected city or all cities
+- Health Risk record count
+- Table to show raw data
+
+![Dashboard](images/dashboard.png)
 
 ## Tech Stack
 
@@ -49,7 +57,7 @@ Backend Docs:
 | Backend | Python |
 | ML | Scikit-learn, XGBoost |
 | Data Handling | Pandas, NumPy |
-| Visualization | Streamlit |
+| Visualization | Streamlit, Looker Studio |
 | Database | PostgreSQL(Neon) |
 | Deployment | Render |
 | Version Control | Git & GitHub |
