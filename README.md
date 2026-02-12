@@ -17,9 +17,12 @@ This is my first end-to-end ML system integrating:
 
 This system:
 
-- Retrieves AQI data from a structured database
+- Takes city name as user input
+- Fetches real-time pollutant and weather data of selected city using API
+- Uses a trained model to predict AQI and store in a structured database
+- Retrieves AQI data from the database
 - Visualizes pollution trends using interactive line charts
-- Predicts health risk levels using Machine Learning
+- Determines health risk levels from the AQI
 - Provides interpretable insights for decision-making
 
 The goal of this project is not only prediction, but building a **real-world deployable ML system**.
@@ -29,7 +32,7 @@ Frontend:
 [https://air-quality-health-risk-1.onrender.com](https://air-quality-health-risk-1.onrender.com/)
 
 Backend Docs:
-[https://air-quality-health-risk.onrender.com/docs](https://air-quality-health-risk.onrender.com/)
+[https://air-quality-health-risk.onrender.com/docs](https://air-quality-health-risk.onrender.com/docs)
 
 ## Visualizations
 
@@ -46,8 +49,8 @@ Backend Docs:
 | Backend | Python |
 | ML | Scikit-learn, XGBoost |
 | Data Handling | Pandas, NumPy |
-| Visualization | Streamlit, PowerBI |
-| Database | PostgreSQL |
+| Visualization | Streamlit |
+| Database | PostgreSQL(Neon) |
 | Deployment | Render |
 | Version Control | Git & GitHub |
 
